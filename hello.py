@@ -58,6 +58,30 @@ if __name__=="__main__":
 # auto reload the server and using the flask debugger
     app.run(debug=True)
 
+#advanced python decorators
+
+class User:
+    def __init__(self,name):
+        self.name=name
+        self.is_logged_in=False
+
+
+def is_authenticated_decorator(function):
+    def wrapper(*args):
+        if args[0].is_logged_in==True:
+            function(args[0])
+    return wrapper
+
+
+#we have to create an authenticator to know whether logged in or not
+@is_authenticated_decorator
+def create_blog_post(user):
+    print(f"This is {user.name} here,creating a new blog")
+
+new_user=User("Aditya")
+new_user.is_logged_in=True
+create_blog_post(new_user)
+
 
 
 
